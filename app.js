@@ -1,9 +1,13 @@
+let listaNumerosSorteados = [];
+let numeroLimite = 10;
 let numeroSecreto = gerarNumeroAleatorio();
 let tentativa = 1;
 
 function exibirTextoNaTela(tag, texto) {
     let campo = document.querySelector(tag);
     campo.innerHTML = texto;
+
+    responsiveVoice.speak(texto, 'Brazilian Portuguese Female',{rate:1.2})
 }
 
 function exibirMensagemInicial()
@@ -31,13 +35,27 @@ function verificarChute() {
         } else{
             exibirTextoNaTela('p','o número secreto é maior');
         }
+
         tentativa++;
         limparCampo();
     }
 }
 
 function gerarNumeroAleatorio() {
-    return parseInt(Math.random() * 10 + 1);
+    let numeroEscolhido =  parseInt(Math.random() * numeroLimite + 1);
+    let qtdElementosLista = listaNumerosSorteados.length;
+
+    if(qtdElementosLista == numeroLimite){
+        listaNumerosSorteados = [];
+    }
+
+    if(listaNumerosSorteados.includes(numeroEscolhido)){
+        return gerarNumeroAleatorio();
+    } else{
+        listaNumerosSorteados.push(numeroEscolhido);
+        //console.log(listaNumerosSorteados);
+        return numeroEscolhido;
+    }
 }
 
 function limparCampo()
